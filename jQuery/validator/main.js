@@ -1,6 +1,6 @@
 $(() => {
     $.validator.addMethod('checkISO',(value)=>{
-        return value.length < 0 && value.length > 10
+        return value.length <= 10
     },'Please enter date in dd-mm-yyyy format')
     
     $.validator.addMethod('reverseISO',(value)=>{
