@@ -1,33 +1,58 @@
 $(() => {
+    $.validator.addMethod('reverseISO',(value,element)=>{
+        let valueToArr = value.split('-');        
+            if(valueToArr[0].length === 2 && valueToArr[1].length === 2 && valueToArr[2].length === 4){
+                return true
+            }        
+    },'Please enter date in dd-mm-yyyy format');
+
+    $.validator.addMethod('isDigits',(val,element)=>{
+        let valueToArr = val.split('-');
+        if(!isNaN(valueToArr[0]) && !isNaN(valueToArr[1]) && !isNaN(valueToArr[2])){
+            return true;
+        };
+    },'Please enter digits in your Date of Birth field')
+
     $('#myForm').validate({
         rules: {
-            email: {
+            age: {
                 required: true,
-                email: true
+                digits: true,                
             },
             name: {
                 required: true,
                 minlength: 3
+            },
+            date: {
+                required: true,
+                //dateISO: true,
+                reverseISO: true,
+                isDigits: true
             }
         },
         messages: {
-            email:{
-                required: 'Please Enter an E-mail.' 
+            age:{
+                required: 'Please Enter your Age.' 
             },
             name:{
                 required: 'Please Enter a Name.' ,
-                minlength: 'Lenght must me at least 3 characters long.'
-                
-            }   
+                minlength: 'Lenght must be at least 3 characters long.'                
+            },
+            date: {
+                required: 'Please enter your Date of Birth.'
+            }  
         },
         submitHandler: () => {            
-            alert('valid')
+            $('#myForm').effect('blind')
         },
         invalidHandler:()=>{
-            alert('invalid')
+            $('#myForm').effect('shake')
         }
         
         
     })   
     
 })
+
+// documentation at https://jqueryvalidation.org/
+// also good documentation about this topic https://www.hostcms.ru/documentation/step-by-step/templates/jquery.validate/
