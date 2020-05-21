@@ -1,12 +1,18 @@
 $(() => {
-    $.validator.addMethod('reverseISO',(value,element)=>{
+    $.validator.addMethod('checkISO',(value)=>{
+        return value.length < 0 && value.length > 10
+    },'Please enter date in dd-mm-yyyy format')
+    
+    $.validator.addMethod('reverseISO',(value)=>{
         let valueToArr = value.split('-');        
-            if(valueToArr[0].length === 2 && valueToArr[1].length === 2 && valueToArr[2].length === 4){
+            if(valueToArr === undefined){
                 return true
-            }        
+            }  else if (valueToArr[0].length === 2 && valueToArr[1].length === 2 && valueToArr[2].length === 4) {
+                return true
+            }    
     },'Please enter date in dd-mm-yyyy format');
 
-    $.validator.addMethod('isDigits',(val,element)=>{
+    $.validator.addMethod('isDigits',(val)=>{
         let valueToArr = val.split('-');
         if(!isNaN(valueToArr[0]) && !isNaN(valueToArr[1]) && !isNaN(valueToArr[2])){
             return true;
@@ -24,10 +30,13 @@ $(() => {
                 minlength: 3
             },
             date: {
+                checkISO: true,
                 required: true,
                 //dateISO: true,
                 reverseISO: true,
-                isDigits: true
+                isDigits: true,
+                date:true
+                
             }
         },
         messages: {
